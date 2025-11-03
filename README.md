@@ -1,51 +1,56 @@
-🐾 Web_Mascotas – Proyecto Fullstack con Docker Compose
-Aplicación para gestionar mascotas y sus cuidados , implementada con una arquitectura monolítica moderna en contenedores Docker.
+# 🐾 Web_Mascotas – Proyecto Fullstack con Docker Compose
 
-🚀 Tecnologías utilizadas
-Frontend: Next.js 14 (TypeScript + TailwindCSS + SWR)
-Backend: Go (manejadores + almacenes y modelos)
-Base de datos: PostgreSQL 13
-Orquestación: Docker Compose v2
-⚙️ Requisitos
-Escritorio Docker
-Código de Visual Studio
-🧱 Estructura del proyecto
+Aplicación para gestionar mascotas y sus cuidados, implementada con una arquitectura monolítica moderna en contenedores Docker.
+
+---
+
+## 🚀 Tecnologías utilizadas
+
+* **Frontend:** Next.js 14 (TypeScript + TailwindCSS + SWR)
+* **Backend:** Go (manejadores, almacenes y modelos)
+* **Base de datos:** PostgreSQL 13
+* **Orquestación:** Docker Compose v2
+
+---
+
+## ⚙️ Requisitos
+
+* Docker Desktop instalado
+* Visual Studio Code u otro editor de código
+
+---
+
+## 🧱 Estructura del proyecto
+
+```
 web_arquitecturamonolitica/
   backend/
     cmd/api/main.go
     internal/
-      config/
-        config.go
-      database/
-        db.go
-        migrate.go
-        migrations/0001_init.sql
-      http/
-        handlers.go
-        router.go
-        errors.go
-      models/
-        cuidado.go
-        mascota.go
+      config/config.go
+      database/db.go
+      database/migrate.go
+      database/migrations/0001_init.sql
+      http/handlers.go
+      http/router.go
+      http/errors.go
+      models/cuidado.go
+      models/mascota.go
     go.mod
     Dockerfile
   frontend/
-    app/
-      layout.tsx
-      page.tsx
-      error.tsx
-    components/
-      PetForm.tsx
-      PetList.tsx
-      CareList.tsx
-      Skeleton.tsx
-      Toast.tsx
-    lib/
-      api/client.ts
-      hooks.ts
+    app/layout.tsx
+    app/page.tsx
+    app/error.tsx
+    components/PetForm.tsx
+    components/PetList.tsx
+    components/CareList.tsx
+    components/Skeleton.tsx
+    components/Toast.tsx
+    lib/api/client.ts
+    lib/hooks.ts
     public/
-    styles/
-      globals.css
+    styles/globals.css
     next.config.mjs
     package.json
     tsconfig.json
@@ -53,64 +58,122 @@ web_arquitecturamonolitica/
     tailwind.config.ts
     Dockerfile
   docker-compose.yml
-🌐 Puertos
-Servicio	Puerto host	Puerto contenedor	Descripción
-Interfaz	3000	3000	Next.js (interfaz web)
-Backend	8080	8080	API Go
-Base de datos	5436	5432	PostgreSQL
-🐳 Levantar con Docker Compose
+```
+
+---
+
+## 🌐 Puertos
+
+| Servicio      | Puerto host | Puerto contenedor | Descripción            |
+| ------------- | ----------- | ----------------- | ---------------------- |
+| Interfaz      | 3000        | 3000              | Next.js (interfaz web) |
+| Backend       | 8080        | 8080              | API Go                 |
+| Base de datos | 5436        | 5432              | PostgreSQL             |
+
+---
+
+## 🐳 Levantar con Docker Compose
+
 Desde la raíz del proyecto:
 
+```bash
 docker compose up -d --build
-🔎 Verificación rápida
-Backend:
+```
 
+### 🔎 Verificación rápida
+
+* **Backend:**
+
+```bash
 docker compose logs --follow backend
-→ “El servidor backend está escuchando en el puerto :8080”
+# → “El servidor backend está escuchando en el puerto :8080”
+```
 
-Base de datos:
+* **Base de datos:**
 
+```bash
 docker compose logs --follow db
-→ comprobación de salud OK
+# → comprobación de salud OK
+```
 
-Interfaz:
+* **Interfaz:**
 
+```bash
 docker compose logs --follow frontend
-→ Listo en puerto 3000
+# → Listo en puerto 3000
+```
 
-🧪 Pruebas rápidas
-🌍 Web: http://localhost:3000
-⚙️ API: http://localhost:8080/health
-Para los servicios:
+---
 
+## 🧪 Pruebas rápidas
+
+* **Web:** [http://localhost:3000](http://localhost:3000)
+* **API Health:** [http://localhost:8080/health](http://localhost:8080/health)
+
+### Comandos útiles de Docker
+
+* Apagar servicios:
+
+```bash
 docker compose down
-Para limpiar volúmenes y reconstruir todo:
+```
 
+* Limpiar volúmenes y reconstruir todo:
+
+```bash
 docker compose down -v
 docker compose up -d --build
-🔐 Variables de entorno
-Backend
-Variable	Descripción	Valor por defecto
-PORT	Puerto del servidor	8080
-DB_DSN	Cadena de conexión a Postgres	al serviciodb
-ALLOWED_ORIGINS	CORS lo permitía	http://localhost:3000
-Interfaz
-Variable	Descripción	Valor por defecto
-NEXT_PUBLIC_API_URL	URL base de la API	http://localhost:8080
-🔗 Puntos finales principales
-chequeo de salud
-Método	Ruta	Respuesta
-CONSEGUIR	/health	{ "status": "ok" }
-CONSEGUIR	/ready	204
-mascotas
-Método	Ruta	Descripción
-CONSEGUIR	/mascotas?limit&offset	Listar
-CORREO	/mascotas	Crear mascota
-OBTENER/INSERTAR/ELIMINAR	/mascotas/{id}	Operaciones CRUD
-Cuidados
-Método	Ruta	Descripción
-CONSEGUIR	/mascotas/{id}/cuidados	Listar cuidados de una mascota
-CORREO	/mascotas/{id}/cuidados	Agregar cuidado
-OBTENER/INSERTAR/ELIMINAR	/cuidados/{id}	Operaciones CRUD sobre cuidado
-✨ Autor
-Lilly Signey Puentes Rincón 📅 Proyecto Fullstack con Docker
+```
+
+---
+
+## 🔐 Variables de entorno
+
+### Backend
+
+| Variable        | Descripción                   | Valor por defecto                              |
+| --------------- | ----------------------------- | ---------------------------------------------- |
+| PORT            | Puerto del servidor           | 8080                                           |
+| DB_DSN          | Cadena de conexión a Postgres | Al servicio `db`                               |
+| ALLOWED_ORIGINS | CORS permitido                | [http://localhost:3000](http://localhost:3000) |
+
+### Frontend
+
+| Variable            | Descripción        | Valor por defecto                              |
+| ------------------- | ------------------ | ---------------------------------------------- |
+| NEXT_PUBLIC_API_URL | URL base de la API | [http://localhost:8080](http://localhost:8080) |
+
+---
+
+## 🔗 Puntos finales principales
+
+### Chequeo de salud
+
+| Método | Ruta    | Respuesta          |
+| ------ | ------- | ------------------ |
+| GET    | /health | { "status": "ok" } |
+| GET    | /ready  | 204                |
+
+### Mascotas
+
+| Método         | Ruta           | Descripción                    |
+| -------------- | -------------- | ------------------------------ |
+| GET            | /mascotas      | Listar                         |
+| POST           | /mascotas      | Crear mascota                  |
+| GET/PUT/DELETE | /mascotas/{id} | Operaciones CRUD sobre mascota |
+
+### Cuidados
+
+| Método         | Ruta                    | Descripción                    |
+| -------------- | ----------------------- | ------------------------------ |
+| GET            | /mascotas/{id}/cuidados | Listar cuidados de una mascota |
+| POST           | /mascotas/{id}/cuidados | Agregar cuidado                |
+| GET/PUT/DELETE | /cuidados/{id}          | CRUD sobre cuidado             |
+
+---
+
+## ✨ Autor
+
+**Lilly Signey Puentes Rincón**
+📅 Proyecto Fullstack con Docker Compose
+
